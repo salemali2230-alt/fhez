@@ -430,19 +430,22 @@ const BalloonExperiment: React.FC = () => {
 
     const [papers, setPapers] = useState(initialPapersData);
 
-    const handleMouseDown = (e: React.MouseEvent) => {
-        if (e.button !== 0) return;
+    const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+        if ('button' in e && e.button !== 0) return;
         setIsDragging(true);
     };
 
-    const handleMouseMove = useCallback((e: MouseEvent) => {
+    const handleDragMove = useCallback((e: MouseEvent | TouchEvent) => {
         if (!isDragging || !balloonRef.current || !containerRef.current) return;
+        
+        const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+        const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
 
         const containerRect = containerRef.current.getBoundingClientRect();
         const balloonRect = balloonRef.current.getBoundingClientRect();
 
-        let newX = e.clientX - containerRect.left - balloonRect.width / 2;
-        let newY = e.clientY - containerRect.top - balloonRect.height / 2;
+        let newX = clientX - containerRect.left - balloonRect.width / 2;
+        let newY = clientY - containerRect.top - balloonRect.height / 2;
 
         newX = Math.max(0, Math.min(newX, containerRect.width - balloonRect.width));
         newY = Math.max(0, Math.min(newY, containerRect.height - balloonRect.height));
@@ -479,23 +482,27 @@ const BalloonExperiment: React.FC = () => {
         }
     }, [isDragging, isCharged]);
     
-    const handleMouseUp = useCallback(() => {
+    const handleDragEnd = useCallback(() => {
         setIsDragging(false);
     }, []);
 
     useEffect(() => {
-        const moveHandler = (e: MouseEvent) => handleMouseMove(e);
-        const upHandler = () => handleMouseUp();
+        const moveHandler = (e: MouseEvent | TouchEvent) => handleDragMove(e);
+        const endHandler = () => handleDragEnd();
 
         if (isDragging) {
-            window.addEventListener('mousemove', moveHandler);
-            window.addEventListener('mouseup', upHandler);
+            window.addEventListener('mousemove', moveHandler as any);
+            window.addEventListener('touchmove', moveHandler as any);
+            window.addEventListener('mouseup', endHandler);
+            window.addEventListener('touchend', endHandler);
         }
         return () => {
-            window.removeEventListener('mousemove', moveHandler);
-            window.removeEventListener('mouseup', upHandler);
+            window.removeEventListener('mousemove', moveHandler as any);
+            window.removeEventListener('touchmove', moveHandler as any);
+            window.removeEventListener('mouseup', endHandler);
+            window.removeEventListener('touchend', endHandler);
         };
-    }, [isDragging, handleMouseMove, handleMouseUp]);
+    }, [isDragging, handleDragMove, handleDragEnd]);
 
     const resetExperiment = () => {
         setIsCharged(false);
@@ -530,7 +537,8 @@ const BalloonExperiment: React.FC = () => {
                     ref={balloonRef}
                     className={`absolute w-24 h-32 rounded-full flex items-center justify-center text-black font-bold transition-all duration-300 z-10 ${isDragging ? 'cursor-grabbing scale-105' : 'cursor-grab'} ${isCharged ? 'bg-yellow-400 shadow-[0_0_20px_rgba(250,204,21,0.7)]' : 'bg-red-500'}`}
                     style={{ left: balloonPos.x, top: balloonPos.y }}
-                    onMouseDown={handleMouseDown}
+                    onMouseDown={handleDragStart}
+                    onTouchStart={handleDragStart}
                 >
                     {isCharged && Array.from({ length: 8 }).map((_, i) => (
                         <div key={i} className="absolute text-white font-bold text-2xl select-none pointer-events-none" style={{ top: `${15 + Math.random() * 60}%`, left: `${15 + Math.random() * 60}%`}}>-</div>
@@ -580,36 +588,45 @@ const ElectroscopeExperiment: React.FC = () => {
         return charges;
     }, []);
 
-    const handleMouseDown = (e: React.MouseEvent) => {
-        if (e.button !== 0) return;
+    const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+        if ('button' in e && e.button !== 0) return;
         setIsDragging(true);
     };
 
-    const handleMouseMove = useCallback((e: MouseEvent) => {
+    const handleDragMove = useCallback((e: MouseEvent | TouchEvent) => {
         if (!isDragging || !rodRef.current || !containerRef.current) return;
+        
+        const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+        const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+
         const containerRect = containerRef.current.getBoundingClientRect();
         const rodRect = rodRef.current.getBoundingClientRect();
-        let newX = e.clientX - containerRect.left - rodRect.width / 2;
-        let newY = e.clientY - containerRect.top - rodRect.height / 2;
+        let newX = clientX - containerRect.left - rodRect.width / 2;
+        let newY = clientY - containerRect.top - rodRect.height / 2;
         newX = Math.max(0, Math.min(newX, containerRect.width - rodRect.width));
         newY = Math.max(0, Math.min(newY, containerRect.height - rodRect.height));
         setRodPos({ x: newX, y: newY });
     }, [isDragging]);
     
-    const handleMouseUp = useCallback(() => setIsDragging(false), []);
+    const handleDragEnd = useCallback(() => setIsDragging(false), []);
 
     useEffect(() => {
-        const moveHandler = (e: MouseEvent) => handleMouseMove(e);
-        const upHandler = () => handleMouseUp();
+        const moveHandler = (e: MouseEvent | TouchEvent) => handleDragMove(e);
+        const endHandler = () => handleDragEnd();
+
         if (isDragging) {
-            window.addEventListener('mousemove', moveHandler);
-            window.addEventListener('mouseup', upHandler);
+            window.addEventListener('mousemove', moveHandler as any);
+            window.addEventListener('touchmove', moveHandler as any);
+            window.addEventListener('mouseup', endHandler);
+            window.addEventListener('touchend', endHandler);
         }
         return () => {
-            window.removeEventListener('mousemove', moveHandler);
-            window.removeEventListener('mouseup', upHandler);
+            window.removeEventListener('mousemove', moveHandler as any);
+            window.removeEventListener('touchmove', moveHandler as any);
+            window.removeEventListener('mouseup', endHandler);
+            window.removeEventListener('touchend', endHandler);
         };
-    }, [isDragging, handleMouseMove, handleMouseUp]);
+    }, [isDragging, handleDragMove, handleDragEnd]);
     
     const { leafAngle, isClose } = useMemo(() => {
         if (!containerRef.current || !rodRef.current) return { leafAngle: 2, isClose: false };
@@ -669,7 +686,8 @@ const ElectroscopeExperiment: React.FC = () => {
                     ref={rodRef}
                     className={`absolute w-40 h-8 bg-blue-500 rounded-full flex items-center justify-evenly text-white font-bold text-2xl transition-all duration-200 z-20 ${isDragging ? 'cursor-grabbing scale-105 shadow-2xl' : 'cursor-grab'}`}
                     style={{ left: rodPos.x, top: rodPos.y }}
-                    onMouseDown={handleMouseDown}
+                    onMouseDown={handleDragStart}
+                    onTouchStart={handleDragStart}
                 >
                     <span>-</span><span>-</span><span>-</span><span>-</span><span>-</span>
                 </div>
@@ -701,36 +719,44 @@ const InductionSphereExperiment: React.FC = () => {
         return charges;
     }, []);
 
-    const handleRodMouseDown = (e: React.MouseEvent) => {
-        if (e.button !== 0) return;
+    const handleRodDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+        if ('button' in e && e.button !== 0) return;
         setIsDragging(true);
     };
 
-    const handleRodMouseMove = useCallback((e: MouseEvent) => {
+    const handleRodDragMove = useCallback((e: MouseEvent | TouchEvent) => {
         if (!isDragging || !rodRef.current || !containerRef.current) return;
+        
+        const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+        const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+
         const containerRect = containerRef.current.getBoundingClientRect();
         const rodRect = rodRef.current.getBoundingClientRect();
-        let newX = e.clientX - containerRect.left - rodRect.width / 2;
-        let newY = e.clientY - containerRect.top - rodRect.height / 2;
+        let newX = clientX - containerRect.left - rodRect.width / 2;
+        let newY = clientY - containerRect.top - rodRect.height / 2;
         newX = Math.max(0, Math.min(newX, containerRect.width - rodRect.width));
         newY = Math.max(0, Math.min(newY, containerRect.height - rodRect.height));
         setRodPos({ x: newX, y: newY });
     }, [isDragging]);
 
-    const handleRodMouseUp = useCallback(() => setIsDragging(false), []);
+    const handleRodDragEnd = useCallback(() => setIsDragging(false), []);
 
     useEffect(() => {
-        const moveHandler = (e: MouseEvent) => handleRodMouseMove(e);
-        const upHandler = () => handleRodMouseUp();
+        const moveHandler = (e: MouseEvent | TouchEvent) => handleRodDragMove(e);
+        const endHandler = () => handleRodDragEnd();
         if (isDragging) {
-            window.addEventListener('mousemove', moveHandler);
-            window.addEventListener('mouseup', upHandler);
+            window.addEventListener('mousemove', moveHandler as any);
+            window.addEventListener('touchmove', moveHandler as any);
+            window.addEventListener('mouseup', endHandler);
+            window.addEventListener('touchend', endHandler);
         }
         return () => {
-            window.removeEventListener('mousemove', moveHandler);
-            window.removeEventListener('mouseup', upHandler);
+            window.removeEventListener('mousemove', moveHandler as any);
+            window.removeEventListener('touchmove', moveHandler as any);
+            window.removeEventListener('mouseup', endHandler);
+            window.removeEventListener('touchend', endHandler);
         };
-    }, [isDragging, handleRodMouseMove, handleRodMouseUp]);
+    }, [isDragging, handleRodDragMove, handleRodDragEnd]);
 
     const rodIsClose = useMemo(() => {
         if (!containerRef.current || !rodRef.current) return false;
@@ -828,7 +854,8 @@ const InductionSphereExperiment: React.FC = () => {
                     ref={rodRef}
                     className={`absolute w-40 h-8 bg-blue-500 rounded-full flex items-center justify-evenly text-white font-bold text-2xl transition-all duration-200 z-20 ${isDragging ? 'cursor-grabbing scale-105 shadow-2xl' : 'cursor-grab'}`}
                     style={{ left: rodPos.x, top: rodPos.y }}
-                    onMouseDown={handleRodMouseDown}
+                    onMouseDown={handleRodDragStart}
+                    onTouchStart={handleRodDragStart}
                 >
                     <span>-</span><span>-</span><span>-</span><span>-</span><span>-</span>
                 </div>
@@ -856,8 +883,8 @@ const InductionSphereExperiment: React.FC = () => {
 };
 
 const CoulombsLawExperiment: React.FC = () => {
-    const [q1, setQ1] = useState(5); // Positive charge
-    const [q2, setQ2] = useState(-5); // Negative charge, but we use its absolute for force magnitude
+    const [q1, setQ1] = useState(5); // Positive charge in µC
+    const [q2, setQ2] = useState(-5); // Negative charge in µC
     const [charge2Pos, setCharge2Pos] = useState({ x: 350, y: 150 });
     const [isDragging, setIsDragging] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -865,34 +892,41 @@ const CoulombsLawExperiment: React.FC = () => {
 
     const charge1Pos = useMemo(() => ({ x: 100, y: 150 }), []);
 
-    const handleMouseDown = useCallback((e: React.MouseEvent) => {
-        if (e.button !== 0) return;
+    const handleDragStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+        if ('button' in e && e.button !== 0) return;
         setIsDragging(true);
     }, []);
 
-    const handleMouseMove = useCallback((e: MouseEvent) => {
+    const handleDragMove = useCallback((e: MouseEvent | TouchEvent) => {
         if (!isDragging || !charge2Ref.current || !containerRef.current) return;
+        
+        const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+
         const containerRect = containerRef.current.getBoundingClientRect();
         const chargeRect = charge2Ref.current.getBoundingClientRect();
-        let newX = e.clientX - containerRect.left - chargeRect.width / 2;
+        let newX = clientX - containerRect.left - chargeRect.width / 2;
         newX = Math.max(charge1Pos.x + 50, Math.min(newX, containerRect.width - chargeRect.width));
         setCharge2Pos({ x: newX, y: charge1Pos.y });
     }, [isDragging, charge1Pos]);
 
-    const handleMouseUp = useCallback(() => setIsDragging(false), []);
+    const handleDragEnd = useCallback(() => setIsDragging(false), []);
 
     useEffect(() => {
-        const moveHandler = (e: MouseEvent) => handleMouseMove(e);
-        const upHandler = () => handleMouseUp();
+        const moveHandler = (e: MouseEvent | TouchEvent) => handleDragMove(e);
+        const endHandler = () => handleDragEnd();
         if (isDragging) {
-            window.addEventListener('mousemove', moveHandler);
-            window.addEventListener('mouseup', upHandler);
+            window.addEventListener('mousemove', moveHandler as any);
+            window.addEventListener('touchmove', moveHandler as any);
+            window.addEventListener('mouseup', endHandler);
+            window.addEventListener('touchend', endHandler);
         }
         return () => {
-            window.removeEventListener('mousemove', moveHandler);
-            window.removeEventListener('mouseup', upHandler);
+            window.removeEventListener('mousemove', moveHandler as any);
+            window.removeEventListener('touchmove', moveHandler as any);
+            window.removeEventListener('mouseup', endHandler);
+            window.removeEventListener('touchend', endHandler);
         };
-    }, [isDragging, handleMouseMove, handleMouseUp]);
+    }, [isDragging, handleDragMove, handleDragEnd]);
 
     const { distance, force } = useMemo(() => {
         const K = 8.99 * Math.pow(10, 9); // Coulomb's constant
@@ -916,49 +950,55 @@ const CoulombsLawExperiment: React.FC = () => {
             <div ref={containerRef} className="relative h-80 border border-dashed border-slate-600 rounded-lg p-4 flex items-center select-none overflow-hidden">
                 <div 
                     className="absolute w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white font-bold text-lg"
-                    style={{ left: charge1Pos.x - 20, top: charge1Pos.y - 20 }}
+                    style={{ left: charge1Pos.x, top: charge1Pos.y, transform: 'translate(-50%, -50%)' }}
                 >+</div>
 
                 <div 
                     ref={charge2Ref}
                     className={`absolute w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-lg ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
-                    style={{ left: charge2Pos.x - 20, top: charge2Pos.y - 20 }}
-                    onMouseDown={handleMouseDown}
+                    style={{ left: charge2Pos.x, top: charge2Pos.y, transform: 'translate(-50%, -50%)' }}
+                    onMouseDown={handleDragStart}
+                    onTouchStart={handleDragStart}
                 >-</div>
 
-                {/* Force Arrow */}
-                <div 
-                    className="absolute h-1 bg-yellow-400 origin-left transition-all"
-                    style={{
-                        left: charge1Pos.x,
-                        top: charge1Pos.y,
-                        width: `${Math.min(charge2Pos.x - charge1Pos.x - 20, 300)}px`,
-                        transform: `scaleX(${Math.min(force / 1000, 1)})`,
-                        opacity: 0.7
-                    }}
-                />
-                 <div 
-                    className="absolute h-1 bg-yellow-400 origin-right transition-all"
-                    style={{
-                        left: `${charge1Pos.x + 20}px`,
-                        top: charge1Pos.y,
-                        width: `${Math.min(charge2Pos.x - charge1Pos.x - 20, 300)}px`,
-                        transform: `scaleX(${Math.min(force / 1000, 1)}) rotate(180deg)`,
-                        opacity: 0.7
-                    }}
-                />
-
-                {/* Distance line */}
-                <div className="absolute w-full h-px bg-slate-600 border-t border-dashed" style={{ top: charge1Pos.y }} />
+                <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto" markerUnits="strokeWidth">
+                            <path d="M0,0 L0,7 L9,3.5 z" fill="#facc15" />
+                        </marker>
+                    </defs>
+                    <line 
+                        x1={charge1Pos.x} y1={charge1Pos.y} 
+                        x2={charge2Pos.x} y2={charge2Pos.y} 
+                        stroke="#475569" strokeWidth="1" strokeDasharray="4 4" 
+                    />
+                    <line
+                        x1={charge1Pos.x + 25} y1={charge1Pos.y}
+                        x2={charge1Pos.x + 25 + Math.min(force/100, 80)} y2={charge1Pos.y}
+                        stroke="#facc15" strokeWidth="3" markerEnd="url(#arrowhead)"
+                    />
+                    <line
+                        x1={charge2Pos.x - 25} y1={charge2Pos.y}
+                        x2={charge2Pos.x - 25 - Math.min(force/100, 80)} y2={charge2Pos.y}
+                        stroke="#facc15" strokeWidth="3" markerEnd="url(#arrowhead)"
+                    />
+                </svg>
+                 <div className="absolute text-slate-400 text-sm bg-slate-900 px-1 rounded" style={{ 
+                    top: charge1Pos.y - 30, 
+                    left: (charge1Pos.x + charge2Pos.x) / 2,
+                    transform: 'translateX(-50%)'
+                }}>
+                    r = {distance.toFixed(3)} m
+                </div>
             </div>
             <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-slate-300">
                 <div className="space-y-2">
                     <label htmlFor="q1">الشحنة الأولى (q1): {q1} µC</label>
-                    <input type="range" id="q1" min="1" max="10" value={q1} onChange={(e) => setQ1(Number(e.target.value))} className="w-full" />
+                    <input type="range" id="q1" min="1" max="10" value={q1} onChange={(e) => setQ1(Number(e.target.value))} className="w-full accent-indigo-500" />
                 </div>
                 <div className="space-y-2">
                     <label htmlFor="q2">الشحنة الثانية (q2): {q2} µC</label>
-                    <input type="range" id="q2" min="-10" max="-1" value={q2} onChange={(e) => setQ2(Number(e.target.value))} className="w-full" />
+                    <input type="range" id="q2" min="-10" max="-1" value={q2} onChange={(e) => setQ2(Number(e.target.value))} className="w-full accent-indigo-500" />
                 </div>
                 <div className="bg-slate-900/50 p-3 rounded-lg text-center">
                     <p className="text-sm text-slate-400">القوة المحسوبة (F)</p>
