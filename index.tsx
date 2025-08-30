@@ -14,6 +14,12 @@ interface QuizQuestion {
   correctAnswerIndex: number;
 }
 
+interface MatchingGameItem {
+  id: number;
+  term: string;
+  definition: string;
+}
+
 interface Chapter {
   id: number;
   title: string;
@@ -25,6 +31,7 @@ interface Chapter {
   }[];
   games: {
     quiz: QuizQuestion[];
+    matching: MatchingGameItem[];
   };
 }
 
@@ -61,9 +68,14 @@ const chapters: Chapter[] = [
       { type: 'heading', content: 'أشباه الموصلات' },
       { type: 'paragraph', content: 'هي مواد لها خواص كهربائية بين الموصلات والعوازل، مثل السيليكون والجرمانيوم. يمكن التحكم في توصيلها للكهرباء، مما يجعلها أساس صناعة الإلكترونيات الحديثة مثل الترانزستورات والدوائر المتكاملة.'},
       { type: 'heading', content: 'قانون كولوم' },
-      { type: 'paragraph', content: 'يصف هذا القانون القوة الكهربائية بين شحنتين. وتنص على أن القوة تزداد بزيادة مقدار الشحنتين، وتقل بشكل كبير كلما زادت المسافة بينهما. القوة تكون تجاذبية إذا كانت الشحنتان مختلفتين، وتنافرية إذا كانتا متشابهتين.' },
+      { type: 'paragraph', content: 'يصف هذا القانون القوة الكهربائية بين شحنتين. وتنص على أن القوة تتناسب طردياً مع حاصل ضرب مقدار الشحنتين، وعكسياً مع مربع المسافة بينهما. القوة تكون تجاذبية إذا كانت الشحنتان مختلفتين، وتنافرية إذا كانتا متشابهتين.' },
+      { type: 'image', content: 'https://picsum.photos/600/300?random=3' },
       { type: 'heading', content: 'المجال الكهربائي' },
-      { type: 'paragraph', content: 'هو الحيز المحيط بالشحنة الكهربائية والذي تظهر فيه آثار قوتها الكهربائية على أي شحنة أخرى تدخل هذا الحيز. يمكن تمثيله بخطوط وهمية تسمى خطوط المجال الكهربائي.'},
+      { type: 'paragraph', content: 'هو الحيز المحيط بالشحنة الكهربائية والذي تظهر فيه آثار قوتها الكهربائية على أي شحنة أخرى تدخل هذا الحيز. يمكن تمثيله بخطوط وهمية تسمى خطوط المجال الكهربائي التي تخرج من الشحنة الموجبة وتدخل في الشحنة السالبة.'},
+      { type: 'image', content: 'https://picsum.photos/600/300?random=4' },
+      { type: 'heading', content: 'المكثفات الكهربائية' },
+      { type: 'paragraph', content: 'المكثف هو جهاز يستخدم لتخزين الشحنة الكهربائية والطاقة. يتكون في أبسط أشكاله من لوحين موصلين متوازيين بينهما مادة عازلة. عند توصيله بمصدر جهد، يتراكم على أحد اللوحين شحنة موجبة وعلى الآخر شحنة سالبة مساوية لها في المقدار.' },
+      { type: 'image', content: 'https://picsum.photos/600/300?random=5' },
       { type: 'heading', content: 'البرق: تفريغ كهربائي هائل' },
       { type: 'paragraph', content: 'يحدث البرق نتيجة تراكم شحنات هائلة في السحب بسبب احتكاك جزيئات الماء والجليد. عندما يصبح فرق الجهد كبيراً جداً بين سحابتين أو بين سحابة والأرض، يحدث تفريغ كهربائي على شكل شرارة ضخمة هي البرق.' },
       { type: 'heading', content: 'تطبيقات الكهربائية الساكنة' },
@@ -85,6 +97,7 @@ const chapters: Chapter[] = [
       { id: 1, title: 'تجربة البالون وقصاصات الورق', description: 'قم بدلك البالون بقطعة صوف ثم قربه من قصاصات الورق ولاحظ ما يحدث.'},
       { id: 2, title: 'محاكاة الكشاف الكهربائي', description: 'قرّب ساقاً مشحونة من قرص الكشاف الكهربائي ولاحظ انفراج ورقتيه.'},
       { id: 3, title: 'تجربة الشحن بالحث', description: 'استخدم الساق المشحونة لشحن الكرة المعدنية بالحث. اتبع الخطوات لفصل الشحنات وترك الكرة بشحنة صافية.' },
+      { id: 4, title: 'محاكاة قانون كولوم', description: 'تحكم في مقدار الشحنات والمسافة بينها ولاحظ كيف تتغير القوة الكهربائية.' },
     ],
     games: {
       quiz: [
@@ -238,6 +251,16 @@ const chapters: Chapter[] = [
           options: ['تيار من مقبس قريب', 'تفريغ كهرباء ساكنة من جسمك', 'حرارة المقبض', 'مغناطيسية الباب'],
           correctAnswerIndex: 1
         }
+      ],
+      matching: [
+        { id: 1, term: 'الشحنة الموجبة', definition: 'تحدث عندما تفقد الذرة إلكتروناً أو أكثر.' },
+        { id: 2, term: 'الشحنة السالبة', definition: 'تحدث عندما تكتسب الذرة إلكتروناً أو أكثر.' },
+        { id: 3, term: 'الموصل', definition: 'مادة تسمح بمرور الشحنات الكهربائية بسهولة.' },
+        { id: 4, term: 'العازل', definition: 'مادة تقاوم مرور الشحنات الكهربائية.' },
+        { id: 5, term: 'الشحن بالدلك', definition: 'شحن جسم عن طريق فركه بجسم آخر.' },
+        { id: 6, term: 'الشحن بالحث', definition: 'شحن جسم عن بعد دون ملامسته.' },
+        { id: 7, term: 'الكشاف الكهربائي', definition: 'جهاز للكشف عن وجود الشحنات الكهربائية.' },
+        { id: 8, term: 'التأريض', definition: 'توصيل جسم بالأرض لتفريغ الشحنات الفائضة.' },
       ]
     }
   },
@@ -246,7 +269,7 @@ const chapters: Chapter[] = [
     title: 'الفصل الثاني: المغناطيسية (قريباً)',
     explanation: [],
     experiments: [],
-    games: { quiz: [] }
+    games: { quiz: [], matching: [] }
   }
 ];
 
@@ -274,6 +297,12 @@ const PuzzleIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 6.087c0-.66.54-1.2 1.2-1.2h3.3c.66 0 1.2.54 1.2 1.2v3.3c0 .66-.54 1.2-1.2 1.2h-.675a.75.75 0 000 1.5h.675c.66 0 1.2.54 1.2 1.2v3.3c0 .66-.54 1.2-1.2 1.2h-3.3c-.66 0-1.2-.54-1.2-1.2v-3.3a.75.75 0 00-1.5 0v3.3c0 .66.54 1.2 1.2 1.2h3.3c.66 0 1.2-.54 1.2-1.2v-3.3a.75.75 0 00-1.5 0v-1.5h-1.5a.75.75 0 000 1.5h1.5v3.3c0 .66.54 1.2 1.2 1.2h3.3c.66 0 1.2-.54 1.2-1.2v-3.3a.75.75 0 000-1.5h-1.5a.75.75 0 00-1.5 0v1.5h-1.5v-1.5a.75.75 0 00-1.5 0v1.5a.75.75 0 001.5 0v-1.5h1.5v-1.5a.75.75 0 000-1.5h-1.5v-3.3c0-.66-.54-1.2-1.2-1.2h-3.3a.75.75 0 000 1.5h3.3c.66 0 1.2.54 1.2 1.2v.75a.75.75 0 001.5 0v-.75z" />
     <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.087c0-.66.54-1.2 1.2-1.2h3.3c.66 0 1.2.54 1.2 1.2v3.3c0 .66-.54 1.2-1.2 1.2h-.675a.75.75 0 000 1.5h.675c.66 0 1.2.54 1.2 1.2v3.3c0 .66-.54 1.2-1.2 1.2h-3.3c-.66 0-1.2-.54-1.2-1.2v-3.3a.75.75 0 00-1.5 0v3.3c0 .66.54 1.2 1.2 1.2h3.3c.66 0 1.2-.54 1.2-1.2v-3.3a.75.75 0 00-1.5 0v-1.5H7.5a.75.75 0 000 1.5h.075v3.3c0 .66.54 1.2 1.2 1.2h3.3c.66 0 1.2-.54 1.2-1.2v-3.3a.75.75 0 000-1.5h-1.5a.75.75 0 00-1.5 0v1.5h-1.5v-1.5a.75.75 0 00-1.5 0v1.5a.75.75 0 001.5 0v-1.5h1.5v-1.5a.75.75 0 000-1.5H4.95v-3.3c0-.66.54-1.2 1.2-1.2h3.3a.75.75 0 000-1.5h-3.3c-.66 0-1.2.54-1.2 1.2v.75a.75.75 0 001.5 0v-.75z" />
+  </svg>
+);
+
+const ArrowsRightLeftIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h18m-7.5-12L21 9m0 0l-4.5 4.5M21 9H3" />
   </svg>
 );
 
@@ -821,6 +850,121 @@ const InductionSphereExperiment: React.FC = () => {
     );
 };
 
+const CoulombsLawExperiment: React.FC = () => {
+    const [q1, setQ1] = useState(5); // Positive charge
+    const [q2, setQ2] = useState(-5); // Negative charge, but we use its absolute for force magnitude
+    const [charge2Pos, setCharge2Pos] = useState({ x: 350, y: 150 });
+    const [isDragging, setIsDragging] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const charge2Ref = useRef<HTMLDivElement>(null);
+
+    const charge1Pos = useMemo(() => ({ x: 100, y: 150 }), []);
+
+    const handleMouseDown = useCallback((e: React.MouseEvent) => {
+        if (e.button !== 0) return;
+        setIsDragging(true);
+    }, []);
+
+    const handleMouseMove = useCallback((e: MouseEvent) => {
+        if (!isDragging || !charge2Ref.current || !containerRef.current) return;
+        const containerRect = containerRef.current.getBoundingClientRect();
+        const chargeRect = charge2Ref.current.getBoundingClientRect();
+        let newX = e.clientX - containerRect.left - chargeRect.width / 2;
+        newX = Math.max(charge1Pos.x + 50, Math.min(newX, containerRect.width - chargeRect.width));
+        setCharge2Pos({ x: newX, y: charge1Pos.y });
+    }, [isDragging, charge1Pos]);
+
+    const handleMouseUp = useCallback(() => setIsDragging(false), []);
+
+    useEffect(() => {
+        const moveHandler = (e: MouseEvent) => handleMouseMove(e);
+        const upHandler = () => handleMouseUp();
+        if (isDragging) {
+            window.addEventListener('mousemove', moveHandler);
+            window.addEventListener('mouseup', upHandler);
+        }
+        return () => {
+            window.removeEventListener('mousemove', moveHandler);
+            window.removeEventListener('mouseup', upHandler);
+        };
+    }, [isDragging, handleMouseMove, handleMouseUp]);
+
+    const { distance, force } = useMemo(() => {
+        const K = 8.99 * Math.pow(10, 9); // Coulomb's constant
+        const distPx = charge2Pos.x - charge1Pos.x;
+        const distMeters = distPx / 1000; // Arbitrary scale: 1000px = 1m
+        const q1Coulombs = q1 * 1e-6; // Convert µC to C
+        const q2Coulombs = q2 * 1e-6; // Convert µC to C
+        
+        if (distMeters === 0) return { distance: 0, force: Infinity };
+        
+        const forceVal = (K * Math.abs(q1Coulombs * q2Coulombs)) / Math.pow(distMeters, 2);
+        return { distance: distMeters, force: forceVal };
+    }, [q1, q2, charge1Pos, charge2Pos]);
+
+    return (
+        <div className="bg-slate-800 p-6 rounded-lg shadow-inner mt-4">
+            <h4 className="text-xl font-bold text-indigo-400 mb-2">محاكاة قانون كولوم</h4>
+            <p className="text-sm text-slate-400 mb-4">
+                القوة (F) بين شحنتين تتناسب طردياً مع حاصل ضرب مقدار الشحنتين (q1, q2) وعكسياً مع مربع المسافة (r) بينهما.
+            </p>
+            <div ref={containerRef} className="relative h-80 border border-dashed border-slate-600 rounded-lg p-4 flex items-center select-none overflow-hidden">
+                <div 
+                    className="absolute w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white font-bold text-lg"
+                    style={{ left: charge1Pos.x - 20, top: charge1Pos.y - 20 }}
+                >+</div>
+
+                <div 
+                    ref={charge2Ref}
+                    className={`absolute w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-lg ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+                    style={{ left: charge2Pos.x - 20, top: charge2Pos.y - 20 }}
+                    onMouseDown={handleMouseDown}
+                >-</div>
+
+                {/* Force Arrow */}
+                <div 
+                    className="absolute h-1 bg-yellow-400 origin-left transition-all"
+                    style={{
+                        left: charge1Pos.x,
+                        top: charge1Pos.y,
+                        width: `${Math.min(charge2Pos.x - charge1Pos.x - 20, 300)}px`,
+                        transform: `scaleX(${Math.min(force / 1000, 1)})`,
+                        opacity: 0.7
+                    }}
+                />
+                 <div 
+                    className="absolute h-1 bg-yellow-400 origin-right transition-all"
+                    style={{
+                        left: `${charge1Pos.x + 20}px`,
+                        top: charge1Pos.y,
+                        width: `${Math.min(charge2Pos.x - charge1Pos.x - 20, 300)}px`,
+                        transform: `scaleX(${Math.min(force / 1000, 1)}) rotate(180deg)`,
+                        opacity: 0.7
+                    }}
+                />
+
+                {/* Distance line */}
+                <div className="absolute w-full h-px bg-slate-600 border-t border-dashed" style={{ top: charge1Pos.y }} />
+            </div>
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-slate-300">
+                <div className="space-y-2">
+                    <label htmlFor="q1">الشحنة الأولى (q1): {q1} µC</label>
+                    <input type="range" id="q1" min="1" max="10" value={q1} onChange={(e) => setQ1(Number(e.target.value))} className="w-full" />
+                </div>
+                <div className="space-y-2">
+                    <label htmlFor="q2">الشحنة الثانية (q2): {q2} µC</label>
+                    <input type="range" id="q2" min="-10" max="-1" value={q2} onChange={(e) => setQ2(Number(e.target.value))} className="w-full" />
+                </div>
+                <div className="bg-slate-900/50 p-3 rounded-lg text-center">
+                    <p className="text-sm text-slate-400">القوة المحسوبة (F)</p>
+                    <p className="text-xl font-bold text-amber-400">{force.toExponential(2)} N</p>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+
 interface ExperimentsSectionProps {
   experiments: { id: number; title: string; description: string }[];
 }
@@ -836,6 +980,7 @@ const ExperimentsSection: React.FC<ExperimentsSectionProps> = ({ experiments }) 
           {exp.id === 1 && <BalloonExperiment />}
           {exp.id === 2 && <ElectroscopeExperiment />}
           {exp.id === 3 && <InductionSphereExperiment />}
+          {exp.id === 4 && <CoulombsLawExperiment />}
 
         </div>
       ))}
@@ -845,11 +990,7 @@ const ExperimentsSection: React.FC<ExperimentsSectionProps> = ({ experiments }) 
 
 
 // --- BUNDLED FROM components/GamesSection.tsx ---
-interface GamesSectionProps {
-  quiz: QuizQuestion[];
-}
-
-const GamesSection: React.FC<GamesSectionProps> = ({ quiz }) => {
+const QuizGame: React.FC<{ quiz: QuizQuestion[] }> = ({ quiz }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
@@ -858,17 +999,7 @@ const GamesSection: React.FC<GamesSectionProps> = ({ quiz }) => {
 
   const currentQuestion = quiz[currentQuestionIndex];
   const isCorrect = selectedAnswer === currentQuestion?.correctAnswerIndex;
-
-  useEffect(() => {
-    // Reset state when quiz data changes
-    setCurrentQuestionIndex(0);
-    setScore(0);
-    setSelectedAnswer(null);
-    setShowFeedback(false);
-    setIsFinished(false);
-  }, [quiz]);
-
-
+  
   const handleAnswer = (answerIndex: number) => {
     if (showFeedback) return;
     setSelectedAnswer(answerIndex);
@@ -921,9 +1052,9 @@ const GamesSection: React.FC<GamesSectionProps> = ({ quiz }) => {
   if (!currentQuestion) {
     return <p>لا توجد أسئلة متاحة.</p>;
   }
-
+  
   return (
-    <div className="p-4 sm:p-6 bg-slate-800/50 rounded-lg border border-slate-700 animate-fade-in">
+    <div className="animate-fade-in">
         <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold text-indigo-400">سؤال {currentQuestionIndex + 1} / {quiz.length}</h3>
             <p className="font-bold text-white">النتيجة: {score}</p>
@@ -961,6 +1092,133 @@ const GamesSection: React.FC<GamesSectionProps> = ({ quiz }) => {
           </button>
         </div>
       )}
+    </div>
+  );
+};
+
+const MatchingGame: React.FC<{ items: MatchingGameItem[] }> = ({ items }) => {
+    const [terms, setTerms] = useState<MatchingGameItem[]>([]);
+    const [definitions, setDefinitions] = useState<MatchingGameItem[]>([]);
+    const [matchedPairs, setMatchedPairs] = useState<Record<number, boolean>>({});
+    const [draggedItemId, setDraggedItemId] = useState<number | null>(null);
+
+    const shuffleArray = (array: MatchingGameItem[]) => [...array].sort(() => Math.random() - 0.5);
+
+    const resetGame = useCallback(() => {
+        setTerms(items);
+        setDefinitions(shuffleArray(items));
+        setMatchedPairs({});
+    }, [items]);
+
+    useEffect(() => {
+        resetGame();
+    }, [items, resetGame]);
+
+    const handleDragStart = (e: React.DragEvent<HTMLDivElement>, id: number) => {
+        setDraggedItemId(id);
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', id.toString());
+    };
+    
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>, termId: number) => {
+        e.preventDefault();
+        const definitionId = Number(e.dataTransfer.getData('text/plain'));
+        if (termId === definitionId) {
+            setMatchedPairs(prev => ({ ...prev, [termId]: true }));
+        }
+        setDraggedItemId(null);
+    };
+
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault(); 
+    };
+
+    const allMatched = Object.keys(matchedPairs).length === items.length;
+
+    if (allMatched) {
+        return (
+            <div className="flex flex-col items-center justify-center p-8 bg-slate-800 rounded-lg animate-fade-in text-center">
+                <h3 className="text-3xl font-bold text-green-400">أحسنت!</h3>
+                <p className="text-xl text-slate-300 mt-4">لقد أكملت لعبة التوصيل بنجاح.</p>
+                <button onClick={resetGame} className="mt-8 px-6 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors">
+                    إعادة اللعبة
+                </button>
+            </div>
+        );
+    }
+    
+    return (
+        <div className="animate-fade-in">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold text-indigo-400">صل بين المفهوم والتعريف الصحيح</h3>
+              <button onClick={resetGame} className="px-4 py-1 bg-slate-700 hover:bg-slate-600 rounded-lg text-white font-semibold transition-colors">إعادة</button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Terms Column */}
+                <div className="space-y-4">
+                    {terms.map(term => (
+                        <div
+                            key={term.id}
+                            onDrop={(e) => handleDrop(e, term.id)}
+                            onDragOver={handleDragOver}
+                            className={`p-4 rounded-lg text-white font-semibold transition-colors
+                                ${matchedPairs[term.id] ? 'bg-green-600/50 border-green-500' : 'bg-slate-700 border-slate-600'}
+                                border-2 border-dashed h-20 flex items-center justify-center`}
+                        >
+                            {matchedPairs[term.id] ? <del>{term.term}</del> : term.term}
+                        </div>
+                    ))}
+                </div>
+                {/* Definitions Column */}
+                <div className="space-y-4">
+                    {definitions.map(def => matchedPairs[def.id] ? (
+                        <div key={def.id} className="p-4 rounded-lg bg-slate-800/50 text-slate-500 h-20 flex items-center">{def.definition}</div>
+                    ) : (
+                        <div
+                            key={def.id}
+                            draggable
+                            onDragStart={(e) => handleDragStart(e, def.id)}
+                            className={`p-4 rounded-lg bg-indigo-600 text-white cursor-grab active:cursor-grabbing transition-opacity
+                                ${draggedItemId === def.id ? 'opacity-50' : 'opacity-100'} h-20 flex items-center`}
+                        >
+                            {def.definition}
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+interface GamesSectionProps {
+  quiz: QuizQuestion[];
+  matching: MatchingGameItem[];
+}
+
+const GamesSection: React.FC<GamesSectionProps> = ({ quiz, matching }) => {
+  const [activeGame, setActiveGame] = useState<'quiz' | 'matching'>('quiz');
+
+  // Reset to quiz when chapter changes
+  useEffect(() => {
+    setActiveGame('quiz');
+  }, [quiz, matching]);
+
+  return (
+    <div className="p-4 sm:p-6 bg-slate-800/50 rounded-lg border border-slate-700 animate-fade-in">
+       <div className="flex items-center gap-4 mb-6 border-b border-slate-700 pb-4">
+         <h3 className="text-xl font-bold text-white">اختر لعبة:</h3>
+         <button onClick={() => setActiveGame('quiz')} className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-colors ${activeGame === 'quiz' ? 'bg-indigo-600 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'}`}>
+           <PuzzleIcon className="w-5 h-5" />
+           اختيار من متعدد
+         </button>
+         <button onClick={() => setActiveGame('matching')} className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-colors ${activeGame === 'matching' ? 'bg-indigo-600 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'}`}>
+           <ArrowsRightLeftIcon className="w-5 h-5" />
+           لعبة التوصيل
+         </button>
+       </div>
+       
+       {activeGame === 'quiz' && <QuizGame quiz={quiz} />}
+       {activeGame === 'matching' && <MatchingGame items={matching} />}
     </div>
   );
 };
@@ -1004,7 +1262,7 @@ const ChapterContent: React.FC<ChapterContentProps> = ({ chapter }) => {
       <div className="flex-1 overflow-y-auto pr-2">
         {activeTab === 'explanation' && <ExplanationSection content={chapter.explanation} />}
         {activeTab === 'experiments' && <ExperimentsSection experiments={chapter.experiments} />}
-        {activeTab === 'games' && <GamesSection quiz={chapter.games.quiz} />}
+        {activeTab === 'games' && <GamesSection quiz={chapter.games.quiz} matching={chapter.games.matching} />}
       </div>
     </div>
   );
