@@ -306,6 +306,11 @@ const ArrowsRightLeftIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => 
   </svg>
 );
 
+const ChevronDoubleRightIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 4.5l7.5 7.5-7.5 7.5m6-15l7.5 7.5-7.5 7.5" />
+    </svg>
+  );
 
 // --- BUNDLED FROM components/ExplanationSection.tsx ---
 interface ExplanationSectionProps {
@@ -1274,11 +1279,12 @@ interface SidebarProps {
   chapters: Chapter[];
   selectedChapterId: number;
   setSelectedChapterId: (id: number) => void;
+  isCollapsed: boolean;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ chapters, selectedChapterId, setSelectedChapterId }) => {
+const Sidebar: React.FC<SidebarProps> = ({ chapters, selectedChapterId, setSelectedChapterId, isCollapsed }) => {
   return (
-    <aside className="w-64 bg-slate-800/50 p-4 border-s border-slate-700/50 flex flex-col">
+    <aside className={`bg-slate-800/50 border-s border-slate-700/50 flex flex-col transition-all duration-300 ease-in-out ${isCollapsed ? 'w-0 p-0 overflow-hidden' : 'w-64 p-4'}`}>
       <div className="flex items-center gap-3 mb-8">
         <div className="bg-indigo-600 p-2 rounded-lg">
           <LightningBoltIcon className="w-6 h-6 text-white" />
@@ -1312,16 +1318,26 @@ const Sidebar: React.FC<SidebarProps> = ({ chapters, selectedChapterId, setSelec
 // --- BUNDLED FROM App.tsx ---
 const App: React.FC = () => {
   const [selectedChapterId, setSelectedChapterId] = useState<number>(1);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const selectedChapter = chapters.find(c => c.id === selectedChapterId) as Chapter;
 
   return (
-    <div className="flex h-screen bg-slate-900 text-slate-200">
+    <div className="flex h-screen bg-slate-900 text-slate-200 relative">
       <Sidebar 
         chapters={chapters} 
         selectedChapterId={selectedChapterId} 
-        setSelectedChapterId={setSelectedChapterId} 
+        setSelectedChapterId={setSelectedChapterId}
+        isCollapsed={isSidebarCollapsed}
       />
+       <button
+        onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+        className="absolute top-1/2 -translate-y-1/2 z-20 bg-slate-800 hover:bg-slate-700 border border-slate-600 rounded-full p-1.5 transition-all duration-300 ease-in-out"
+        style={{ right: isSidebarCollapsed ? '0.5rem' : 'calc(16rem - 20px)' }}
+        aria-label={isSidebarCollapsed ? "إظهار اللوحة الجانبية" : "إخفاء اللوحة الجانبية"}
+      >
+        <ChevronDoubleRightIcon className={`w-6 h-6 text-slate-300 transition-transform duration-300 ${isSidebarCollapsed ? 'rotate-180' : ''}`} />
+      </button>
       <main className="flex-1 p-6 sm:p-8 overflow-y-auto">
         {selectedChapter ? (
           <ChapterContent chapter={selectedChapter} />
