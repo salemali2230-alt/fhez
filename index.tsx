@@ -1244,15 +1244,15 @@ const ChapterContent: React.FC<ChapterContentProps> = ({ chapter }) => {
   ];
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col md:h-full">
       <h2 className="text-3xl font-bold text-white mb-4 pb-4 border-b-2 border-slate-700">{chapter.title}</h2>
       
-      <div className="flex items-center gap-2 border-b border-slate-700 mb-6">
+      <div className="flex items-center gap-2 border-b border-slate-700 mb-6 overflow-x-auto">
         {tabs.map((tab) => (
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key as TabKey)}
-            className={`flex items-center gap-2 px-4 py-3 font-semibold transition-colors duration-200 border-b-2 ${
+            className={`flex-shrink-0 flex items-center gap-2 px-4 py-3 font-semibold transition-colors duration-200 border-b-2 ${
               activeTab === tab.key
                 ? 'border-indigo-500 text-indigo-400'
                 : 'border-transparent text-slate-400 hover:text-white'
@@ -1264,7 +1264,7 @@ const ChapterContent: React.FC<ChapterContentProps> = ({ chapter }) => {
         ))}
       </div>
 
-      <div className="flex-1 overflow-y-auto pr-2">
+      <div className="md:flex-1 md:overflow-y-auto md:pr-2">
         {activeTab === 'explanation' && <ExplanationSection content={chapter.explanation} />}
         {activeTab === 'experiments' && <ExperimentsSection experiments={chapter.experiments} />}
         {activeTab === 'games' && <GamesSection quiz={chapter.games.quiz} matching={chapter.games.matching} />}
@@ -1340,7 +1340,7 @@ const App: React.FC = () => {
       </button>
       <main className="flex-1 p-6 sm:p-8 overflow-y-auto">
         {selectedChapter ? (
-          <ChapterContent chapter={selectedChapter} />
+          <ChapterContent key={selectedChapter.id} chapter={selectedChapter} />
         ) : (
           <div className="flex items-center justify-center h-full">
             <p className="text-2xl text-slate-500">الرجاء اختيار فصل للبدء.</p>
