@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
   <head>
@@ -21,9 +20,23 @@
   }
 }
 </script>
+<!--
+  **Fix for GitHub Pages Deployment**
+  Added Babel Standalone to transpile TSX/JSX files directly in the browser.
+  Browsers don't understand TypeScript (.ts, .tsx) files natively. On a development server,
+  these files are converted to JavaScript automatically. On a static host like GitHub Pages,
+  this conversion doesn't happen, causing the server to send the wrong MIME type ("application/octet-stream") 
+  and the browser to block the script. Babel solves this by handling the conversion client-side.
+-->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
   <body class="bg-slate-900 text-white">
     <div id="root"></div>
-    <script type="module" src="./index.tsx"></script>
+    <!--
+      The script type is changed to "text/babel" so Babel can process it.
+      - data-presets="react,typescript": Tells Babel to use presets for React (JSX) and TypeScript.
+      - data-type="module": Ensures the processed script is treated as an ES module, allowing 'import' syntax.
+    -->
+    <script type="text/babel" data-presets="react,typescript" data-type="module" src="./index.tsx"></script>
   </body>
 </html>
