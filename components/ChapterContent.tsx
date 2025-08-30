@@ -1,10 +1,10 @@
 
 import React, { useState } from 'react';
-import type { Chapter, TabKey } from '../types';
-import { BookOpenIcon, BeakerIcon, PuzzleIcon } from './icons/Icons';
-import ExplanationSection from './ExplanationSection';
-import ExperimentsSection from './ExperimentsSection';
-import GamesSection from './GamesSection';
+import type { Chapter, TabKey } from '../types.ts';
+import { BookOpenIcon, BeakerIcon, PuzzleIcon } from './icons/Icons.tsx';
+import ExplanationSection from './ExplanationSection.tsx';
+import ExperimentsSection from './ExperimentsSection.tsx';
+import GamesSection from './GamesSection.tsx';
 
 interface ChapterContentProps {
   chapter: Chapter;

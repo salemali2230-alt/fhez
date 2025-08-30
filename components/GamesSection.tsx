@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import type { QuizQuestion } from '../types';
+import type { QuizQuestion } from '../types.ts';
 
 interface GamesSectionProps {
   quiz: QuizQuestion[];

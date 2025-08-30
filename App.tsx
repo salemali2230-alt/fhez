@@ -1,9 +1,9 @@
 
 import React, { useState } from 'react';
-import Sidebar from './components/Sidebar';
-import ChapterContent from './components/ChapterContent';
-import { chapters } from './constants';
-import type { Chapter } from './types';
+import Sidebar from './components/Sidebar.tsx';
+import ChapterContent from './components/ChapterContent.tsx';
+import { chapters } from './constants.ts';
+import type { Chapter } from './types.ts';
 
 const App: React.FC = () => {
   const [selectedChapterId, setSelectedChapterId] = useState<number>(1);

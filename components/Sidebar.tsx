@@ -1,7 +1,7 @@
 
 import React from 'react';
-import type { Chapter } from '../types';
-import { LightningBoltIcon } from './icons/Icons';
+import type { Chapter } from '../types.ts';
+import { LightningBoltIcon } from './icons/Icons.tsx';
 
 interface SidebarProps {
   chapters: Chapter[];

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import type { ExplanationContent } from '../types';
+import type { ExplanationContent } from '../types.ts';
 
 interface ExplanationSectionProps {
   content: ExplanationContent[];
